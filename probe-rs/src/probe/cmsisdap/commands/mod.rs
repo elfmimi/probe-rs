@@ -289,6 +289,10 @@ impl CmsisDapDevice {
                     source: SendError::Timeout,
                     ..
                 }) => (),
+                Err(CmsisDapError::Send {
+                    source: SendError::UsbError(e),
+                    ..
+                }) if e.kind() == ErrorKind::TimedOut => (),
 
                 // Raise other errors.
                 Err(e) => return Err(e),
